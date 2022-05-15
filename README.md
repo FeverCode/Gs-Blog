@@ -19,7 +19,7 @@
 <p>A personal blogging website where you can create and share your opinions and other users can read and comment on them.</p>
 
 Live link to the project
-[Gs-Blog]()
+[Gs-Blog](https://gs-blog.herokuapp.com/)
 
 ## Requirements
 * A computer running on either Windows, MacOS or Ubuntu operating system installed with the following:
