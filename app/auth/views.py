@@ -32,10 +32,10 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
+            login_user(user, form.remember.data)
             return redirect(request.args.get('next') or url_for('main.home'))
-        else:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
+        
+        flash('Invalid username or Password')
     return render_template('auth/login.html', title='Login', form=form)
 
 

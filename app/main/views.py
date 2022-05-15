@@ -13,18 +13,23 @@ from .. import mail, MAIL_USERNAME
 @main.route("/", methods=['GET', 'POST'])
 @main.route("/home", methods=['GET', 'POST'])
 def home():
+    random_quote_url = 'http://quotes.stormconsultancy.co.uk/random.json'
+    quote_response = requests.get(random_quote_url)
+    quote_data = quote_response.json()
+    posts = Post.query.order_by(Post.date_posted.desc())
+    
 
     form = subscription_form()
     if form.validate_on_submit():
         subemail = form.email.data
         senderemail = MAIL_USERNAME
         msg = Message('Hey there.', sender=senderemail, recipients=subemail)
-        msg.html = '<h2>Welcome to YourQuote.</h2> <p>YourBlog is a personal blogging website where you can create and share your opinions and other users can read and comment on them. Additionally, add a feature that displays random quotes to inspire your users.</p>'
+        msg.html = '<h2>Welcome to Gs-Blog.</h2> <p>G-Blog is a personal blogging website where you can create and share your opinions and other users can read and comment on them. Additionally, add a feature that displays random quotes to inspire your users.</p>'
         mail.send(msg)
         flash('You have been added to our subscription', 'success')
         return redirect(url_for('main.home'))
 
-    return render_template('home.html', title='Home',form=form)
+    return render_template('home.html', title='Home',quote_data=quote_data, posts=posts, form=form)
 
 
 @main.route("/about")
