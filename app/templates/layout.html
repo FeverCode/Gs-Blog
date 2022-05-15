@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+        <title>Gs-Bog - {{ title }}</title>
+    {% else %}
+        <title>Gs-Blog</title>
+    {% endif %}
+
+     {% block styles %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles.css')}}">
+    <link href="https://fonts.googleapis.com/css?family=Chelsea+Market|Knewave|Marck+Script&display=swap" rel="stylesheet">
+
+    <style>
+      body {
+        background-image: url("https://user-images.githubusercontent.com/66039545/168473019-2734cc2b-e151-43e6-ac51-0d2b3570bc60.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .card {
+        background-color: transparent;
+      }
+      </style>
+      {% endblock %}
+
+</head>
+<body>
+    {% block navbar %} {% include "navbar.html" %} {% endblock %} 
+    
+    {% block title %}
+    <div class="">
+        <h2 class="text-center display-4 head_text" style="font-family: 'Marck Script', cursive;">Gs-Blog</h2>
+    </div>
+     {% endblock %}
+
+      {% block content %}
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+          </div>
+        </div>
+      </div>
+      {% endblock %}
+
+{% block scripts %} 
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+{% endblock %}
+</body>
+</html>
+
