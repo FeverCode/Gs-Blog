@@ -6,6 +6,7 @@ from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_simplemde import SimpleMDE
 from flask_mail import Mail
+from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
 import os
 
@@ -19,6 +20,7 @@ photos = UploadSet('photos', IMAGES)
 bootstrap = Bootstrap()
 simple = SimpleMDE()
 mail = Mail()
+bcrypt = Bcrypt()
 
 
 login_manager = LoginManager()
@@ -47,5 +49,6 @@ def create_app(config_name):
     bootstrap.init_app(app)
     simple.init_app(app)
     mail.init_app(app)
+    bcrypt.init_app(app)
 
     return app

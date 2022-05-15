@@ -11,7 +11,7 @@ from .. import mail, MAIL_USERNAME
 
 
 @main.route("/", methods=['GET', 'POST'])
-@main.route("/index", methods=['GET', 'POST'])
+@main.route("/home", methods=['GET', 'POST'])
 def home():
 
     form = subscription_form()
@@ -22,23 +22,27 @@ def home():
         msg.html = '<h2>Welcome to YourQuote.</h2> <p>YourBlog is a personal blogging website where you can create and share your opinions and other users can read and comment on them. Additionally, add a feature that displays random quotes to inspire your users.</p>'
         mail.send(msg)
         flash('You have been added to our subscription', 'success')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.home'))
 
-    return render_template('index.html',form=form)
+    return render_template('home.html', title='Home',form=form)
 
 
+@main.route("/about")
+def about():
+    return render_template('about.html', title='About')
 
-@main.route("/user/<uname>")
+
+@main.route("/account/<uname>")
 @login_required
-def profile(uname):
+def account(uname):
     user = User.query.filter_by(username=uname).first()
     if user is None:
         abort(404)
     posts = Post.query.filter_by(user_id=current_user.id).all()
-    return render_template('profile/profile.html', title='Account', user=user, posts=posts)
+    return render_template('profile/account.html', title='Account', user=user, posts=posts)
 
 
-@main.route('/user/<uname>/update', methods=['GET', 'POST'])
+@main.route('/account/<uname>/update', methods=['GET', 'POST'])
 @login_required
 def update_profile(uname):
     user = User.query.filter_by(username=uname).first()
@@ -53,7 +57,7 @@ def update_profile(uname):
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('.profile', uname=user.username, title='Update Profile'))
+        return redirect(url_for('main.account', uname=user.username, title='Update Profile'))
 
     return render_template('profile/update.html', form=form)
 
@@ -67,7 +71,7 @@ def update_pic(uname):
         path = f'photos/{filename}'
         user.image_file = path
         db.session.commit()
-    return redirect(url_for('main.profile', uname=uname))
+    return redirect(url_for('main.account', uname=uname))
 
 
 @main.route("/post/new", methods=['GET', 'POST'])
@@ -80,7 +84,7 @@ def new_post():
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created', 'success')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.home'))
     return render_template('create_post.html', title='New Blog', form=form, legend='New Blog')
 
 
@@ -140,4 +144,4 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     flash('Your post has been deleted!', 'success')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.home'))
